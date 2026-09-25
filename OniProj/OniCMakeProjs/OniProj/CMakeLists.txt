@@ -500,13 +500,10 @@ if(Platform_SDL)
 
                     ../../../BungieFrameWork/BFW_Source/BFW_FileManager/Platform_Win32/BFW_FileManager_Win32.c)
     elseif(APPLE)
+            # modern macOS is a POSIX system: reuse the Linux file manager and the no-op debugger symbols stub
             set(OS_SOURCE_FILES
-                    ../../../BungieFrameWork/BFW_Source/BFW_DebuggerSymbols/BFW_DebuggerSymbols_MacOS.c
-
-                    ../../../BungieFrameWork/BFW_Source/BFW_FileManager/Platform_MacOS/BFW_FileManager_MacOS.c
-
-                    ../../../BungieFrameWork/BFW_Source/BFW_Motoko/Manager/AltiVec/Motoko_SIMDCache_AltiVec.c
-                    ../../../BungieFrameWork/BFW_Source/BFW_Motoko/Manager/AltiVec/Motoko_SIMDCache_AltiVec.h)
+                    ../../../BungieFrameWork/BFW_Source/BFW_DebuggerSymbols/BFW_DebuggerSymbols_Win32.c
+                    ../../../BungieFrameWork/BFW_Source/BFW_FileManager/Platform_Linux/BFW_FileManager_Linux.c)
     endif()
 
     add_executable(Oni
@@ -533,6 +530,10 @@ if(Platform_SDL)
             ${OPENAL_LIBRARY}
             ${LIBAV}
     )
+    if(APPLE)
+        # Apple's OpenGL is deprecated but still available on Apple Silicon
+        target_compile_definitions(Oni PRIVATE GL_SILENCE_DEPRECATION=1)
+    endif()
 elseif(WIN32)
     add_executable(Oni WIN32
             ${SOURCE_FILES}

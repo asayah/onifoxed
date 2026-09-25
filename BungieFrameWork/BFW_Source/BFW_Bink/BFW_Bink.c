@@ -13,7 +13,7 @@
 #include "Oni_Motoko.h"
 #include "Oni_Persistance.h"
 
-#if UUmPlatform == UUmPlatform_Linux
+#if UUmPlatform_Posix
 //FIXME: Bink 1.0q, included here, does not support Linux
 #define __RAD__
 #define PTR4
@@ -49,7 +49,7 @@ typedef struct{} *HCURSOR;
 
 #include "BFW_SS2_Platform_Win32.h"
 
-#elif UUmPlatform == UUmPlatform_Linux
+#elif UUmPlatform_Posix
 
 #else
 
@@ -164,7 +164,7 @@ BKrBink_Open(
 #endif
 }
 
-#elif UUmPlatform == UUmPlatform_Linux
+#elif UUmPlatform_Posix
 
 static HBINK
 BKrBink_Open(

@@ -40,7 +40,7 @@ if (Platform_SDL)
     )
 endif()
 
-if (LINUX)
+if (CMAKE_SYSTEM_NAME STREQUAL "Linux" OR APPLE)
     target_sources(TEVCProj PRIVATE
         ../../../BungieFrameWork/BFW_Source/BFW_FileManager/Platform_Linux/BFW_FileManager_Linux.c
         ../../../BungieFrameWork/BFW_Source/BFW_DebuggerSymbols/BFW_DebuggerSymbols_Win32.c

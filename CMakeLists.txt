@@ -11,12 +11,26 @@ set(CMAKE_C_STANDARD_REQUIRED True)
 
 if(CMAKE_C_COMPILER_ID STREQUAL "GNU")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-multichar -Wno-incompatible-pointer-types")
+elseif(CMAKE_C_COMPILER_ID MATCHES "Clang")
+	# Apple Clang (Xcode) and upstream Clang promote these to errors by default
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-multichar -Wno-incompatible-pointer-types -Wno-incompatible-function-pointer-types -Wno-int-conversion")
 endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(Platform_SDL TRUE)
+elseif(APPLE)
+	# Modern macOS (Intel or Apple Silicon) only builds through the SDL platform layer;
+	# the Platform_MacOS sources target classic Mac OS / Carbon on PowerPC.
+	option(Platform_SDL "Use SDL as platform layer" ON)
 else()
 	set(Platform_SDL FALSE CACHE BOOL "Use SDL as platform layer")
+endif()
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	message(WARNING
+		"Building a 64-bit executable. The engine compiles and links, but the template manager "
+		"still maps the 32-bit on-disk instance format (level*_Final.dat) straight into memory, "
+		"so a 64-bit build cannot load game data yet. See docs/macOS-Apple-Silicon.md.")
 endif()
 
 include_directories(
@@ -101,6 +115,7 @@ elseif(WIN32)
             OniProj/OniGameSource/Platform_Win32/
     )
 elseif (APPLE)
+    # legacy classic Mac OS (PowerPC/Carbon) layer; not buildable on modern macOS
     include_directories(
             BungieFrameWork/BFW_Source/BFW_LocalInput/Platform_MacOS/
             BungieFrameWork/BFW_Source/BFW_SoundSystem/Platform_MacOS/

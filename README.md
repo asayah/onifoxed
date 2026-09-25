@@ -22,6 +22,6 @@ but time is an issue for me - contributions are welcome!
 
 - [ ] Migrate the projects to CMake
 - [ ] Fix alignment issues against the final PC release
-- [ ] Linux and macOS support
+- [ ] Linux and macOS support (macOS arm64 now compiles through the SDL layer, but a 64-bit build cannot load game data yet; see [docs/macOS-Apple-Silicon.md](docs/macOS-Apple-Silicon.md))
 - [ ] Modernized renderer, with support for shaders
 - [ ] 64-bit compatibility

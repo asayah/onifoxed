@@ -183,7 +183,7 @@ UUrGetSecsSince1900(
 	void)
 {
 	UUtUns32 secs;
-#if UUmPlatform == UUmPlatform_Linux
+#if UUmPlatform_Posix
 	//FIXME: this is going to fail in a few years
 	UUtUns32 secsSince1970 = (UUtUns32)time(NULL);
 	static const UUtUns32 secondsBetween1900And1970 = 2208988800;

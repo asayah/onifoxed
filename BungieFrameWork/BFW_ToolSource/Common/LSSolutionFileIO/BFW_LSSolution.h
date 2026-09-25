@@ -105,7 +105,7 @@ UUtUns32
 LSrData_GetSize(
 	LStData*		inData);
 
-#if UUmPlatform == UUmPlatform_Win32 || UUmPlatform == UUmPlatform_Linux
+#if UUmPlatform == UUmPlatform_Win32 || UUmPlatform_Posix
 
 	UUtError
 	LSrData_CreateFromLSFile(

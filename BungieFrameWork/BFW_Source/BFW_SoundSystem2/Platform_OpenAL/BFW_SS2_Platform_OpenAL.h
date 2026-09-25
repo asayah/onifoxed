@@ -10,7 +10,11 @@
 // includes
 // ======================================================================
 #include "BFW.h"
-#include "AL/al.h"
+#if defined(__APPLE__) && !__has_include(<AL/al.h>)
+	#include <OpenAL/al.h>
+#else
+	#include <AL/al.h>
+#endif
 
 // ======================================================================
 // typedefs

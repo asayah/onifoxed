@@ -31,3 +31,38 @@ jobs:
       - name: 'Build'
         run: |
           cmake --build build --parallel
+  sdl-linux-x86_64:
+    # native 64-bit SDL/OpenGL/OpenAL build (compiles and links; game data loading is 32-bit only for now)
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v6
+      - name: 'Install dependencies'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsdl2-dev libopenal-dev libavcodec-dev libavutil-dev libgl-dev clang
+      - name: 'Configure cmake'
+        run: |
+          cmake -S . -B build -DCMAKE_C_COMPILER=clang -DCMAKE_BUILD_TYPE=Release
+      - name: 'Build'
+        run: |
+          cmake --build build --parallel
+  sdl-macos-arm64:
+    # Apple Silicon (arm64) build through the SDL platform layer
+    runs-on: 'macos-latest'
+    steps:
+      - uses: actions/checkout@v6
+      - name: 'Install dependencies'
+        run: |
+          brew install sdl2 openal-soft ffmpeg pkg-config
+      - name: 'Configure cmake'
+        run: |
+          cmake -S . -B build -DPlatform_SDL=ON -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_PREFIX_PATH="$(brew --prefix openal-soft)"
+      - name: 'Build'
+        run: |
+          cmake --build build --parallel
+      - name: 'Show binary architecture'
+        run: |
+          file build/bin/Oni
+          lipo -info build/bin/Oni

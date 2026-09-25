@@ -11,7 +11,7 @@
 */
 
 //#ifdef UUmPlatform_SonyPSX2_T
-#if defined(UUmPlatform) && ((UUmPlatform == UUmPlatform_SonyPSX2) || (UUmPlatform == UUmPlatform_Win32) || (UUmPlatform == UUmPlatform_Linux))
+#if defined(UUmPlatform) && ((UUmPlatform == UUmPlatform_SonyPSX2) || (UUmPlatform == UUmPlatform_Win32) || UUmPlatform_Posix)
 #define LOSSY_ANIM
 #endif
 

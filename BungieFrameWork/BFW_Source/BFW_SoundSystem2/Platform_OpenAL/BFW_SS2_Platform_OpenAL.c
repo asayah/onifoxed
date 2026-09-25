@@ -17,8 +17,14 @@
 
 #include "BFW_Console.h"
 
-#include "AL/al.h"
-#include "AL/alc.h"
+#if defined(__APPLE__) && !__has_include(<AL/al.h>)
+	// system OpenAL.framework (deprecated but present); Homebrew openal-soft provides AL/al.h instead
+	#include <OpenAL/al.h>
+	#include <OpenAL/alc.h>
+#else
+	#include <AL/al.h>
+	#include <AL/alc.h>
+#endif
 #include <math.h>
 
 #include <libavutil/frame.h>

@@ -64,7 +64,7 @@ typedef struct BFtFileRef
 
 } BFtFileRef;
 
-#elif UUmPlatform == UUmPlatform_Linux
+#elif UUmPlatform_Posix
 
 #define BFcPathSeparator '/'
 
@@ -103,7 +103,7 @@ BFrFile_CompletionFunc_Bool(
 	BFrFileRef_GetFSSpec(
 		BFtFileRef		*inFileRef);
 
-#elif UUmPlatform == UUmPlatform_Win32 || UUmPlatform == UUmPlatform_Linux
+#elif UUmPlatform == UUmPlatform_Win32 || UUmPlatform_Posix
 
 #else
 

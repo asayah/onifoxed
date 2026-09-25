@@ -73,11 +73,13 @@ extern "C" {
  * The possible platforms, processors, compilers, and endiannesses.
  */
 	#define UUmPlatform_Win32		1
-	#define UUmPlatform_Mac			2
+	#define UUmPlatform_Mac			2		// classic Mac OS / Carbon (PowerPC era)
 	#define UUmPlatform_Linux		3
+	#define UUmPlatform_MacOSX		4		// modern macOS (Darwin), Intel or Apple Silicon, via the SDL platform layer
 
 	#define UUmProcessor_Pentium	1
 	#define UUmProcessor_PPC		2
+	#define UUmProcessor_ARM64		3
 
 	#define UUmCompiler_VisC		1
 	#define UUmCompiler_MWerks		2
@@ -92,6 +94,7 @@ extern "C" {
 	#define UUmSIMD_AltiVec			1
 	#define UUmSIMD_Intel			2
 
+
 /*
  * Try to determine the correct platform, processor, and compiler settings if
  * they are not given.
@@ -103,9 +106,21 @@ extern "C" {
 			#define UUmPlatform	UUmPlatform_Win32
 		#elif defined(__linux__)
 			#define UUmPlatform	UUmPlatform_Linux
+		#elif defined(__APPLE__) && defined(__MACH__)
+			#define UUmPlatform	UUmPlatform_MacOSX
 		#else
 			#error Unknown platform - please specify and then do a search on UUmPlatform to add the needed cases
 		#endif
+	#endif
+
+/*
+ * UUmPlatform_Posix is 1 on the platforms that share the POSIX file manager,
+ * the SDL platform layer and the OpenAL sound backend (Linux and modern macOS).
+ */
+	#if (UUmPlatform == UUmPlatform_Linux) || (UUmPlatform == UUmPlatform_MacOSX)
+		#define UUmPlatform_Posix	1
+	#else
+		#define UUmPlatform_Posix	0
 	#endif
 
 	#if !defined(UUmProcessor)
@@ -118,8 +133,12 @@ extern "C" {
 				#define UUmSIMD		UUmSIMD_None
 			#endif
 
-		#elif defined(i386) || defined(__i386__)
+		#elif defined(i386) || defined(__i386__) || defined(__x86_64__) || defined(_M_X64)
 			#define UUmProcessor	UUmProcessor_Pentium
+			#define UUmSIMD			UUmSIMD_None
+
+		#elif defined(__aarch64__) || defined(__arm64__) || defined(_M_ARM64)
+			#define UUmProcessor	UUmProcessor_ARM64
 			#define UUmSIMD			UUmSIMD_None
 
 		#elif (defined(__MWERKS__) && defined(__INTEL__)) || defined(_MSC_VER) || defined(__WATCOMC__)
@@ -151,7 +170,7 @@ extern "C" {
 	#if !defined(UUmEndian)
 		#if UUmProcessor == UUmProcessor_PPC
 			#define UUmEndian	UUmEndian_Big
-		#elif UUmProcessor == UUmProcessor_Pentium
+		#elif UUmProcessor == UUmProcessor_Pentium || UUmProcessor == UUmProcessor_ARM64
 			#define UUmEndian	UUmEndian_Little
 		#else
 			#error Could not automatically determine endianness, please specify manually
@@ -169,6 +188,10 @@ extern "C" {
 	#if UUmProcessor == UUmProcessor_Pentium
 		#define UUcProcessor_CacheLineBits	(5)
 		#define UUrProcessor_ZeroCacheLine(x, y)
+	#elif UUmProcessor == UUmProcessor_ARM64
+		// Apple Silicon uses 128-byte cache lines; 64 is a safe hint for every other ARM64 core
+		#define UUcProcessor_CacheLineBits	(6)
+		#define UUrProcessor_ZeroCacheLine(x, y)
 	#elif UUmProcessor == UUmProcessor_PPC
 		#define UUcProcessor_CacheLineBits	(5)
                 #ifdef __GNUC__
@@ -182,6 +205,17 @@ extern "C" {
 
 	#define UUcProcessor_CacheLineSize		(1 << UUcProcessor_CacheLineBits)
 	#define UUcProcessor_CacheLineSize_Mask	((UUcProcessor_CacheLineSize) - 1)
+
+/*
+ * UUmPointerSize - size of a native pointer in bytes. The instance file format
+ * (level*_Final.dat) stores template references as 4 bytes and is mapped into
+ * memory in place, so only 4 is fully supported at runtime today.
+ */
+	#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__) || defined(__arm64__)
+		#define UUmPointerSize	8
+	#else
+		#define UUmPointerSize	4
+	#endif
 
 
 // change compiler behavior
@@ -330,7 +364,7 @@ extern "C" {
 	typedef uint64_t			UUtUns64;
 
 	#define UUmFS_UUtUns64		"%" PRIu64
-	#define UUmFS_UUtInt64		"%" PRIs64
+	#define UUmFS_UUtInt64		"%" PRId64
 #else
 	typedef unsigned long		UUtUns32;
 	typedef long				UUtInt32;
@@ -567,7 +601,7 @@ extern "C" {
 				#define UUmAssertReadPtr(ptr, size) UUmAssert(!IsBadReadPtr(ptr, size));
 				#define UUmAssertWritePtr(ptr, size) UUmAssert(!IsBadWritePtr(ptr, size));
 
-			#elif UUmPlatform == UUmPlatform_Linux
+			#elif UUmPlatform_Posix
 
 				//FIXME
 				#define UUmAssertReadPtr(ptr, size)
@@ -606,7 +640,7 @@ extern "C" {
 				#define UUmAssertReadPtr(ptr, size) UUmAssert(!IsBadReadPtr(ptr, size) && (0xDDDDDDDD != ((UUtUns32) ptr)));
 				#define UUmAssertWritePtr(ptr, size) UUmAssert(!IsBadWritePtr(ptr, size) && (0xDDDDDDDD != ((UUtUns32) ptr)));
 
-			#elif UUmPlatform == UUmPlatform_Linux
+			#elif UUmPlatform_Posix
 
 				//FIXME
 				#define UUmAssertReadPtr(ptr, size)
@@ -1438,7 +1472,7 @@ extern "C" {
 
 			#define UUmNL	"\r\n"
 
-	#elif UUmPlatform == UUmPlatform_Linux
+	#elif UUmPlatform_Posix
 
 			#define UUmNL	"\n"
 

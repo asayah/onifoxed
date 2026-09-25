@@ -9,8 +9,18 @@
 
 /*---------- headers */
 
-#include <GL/gl.h>
-#if UUmPlatform != UUmPlatform_Linux
+#if UUmPlatform == UUmPlatform_MacOSX
+	// Apple's OpenGL is deprecated (but still shipped) on macOS 10.14+, including Apple Silicon.
+	// Its gl.h pulls in the system glext.h, so we must not include our bundled copy.
+	#ifndef GL_SILENCE_DEPRECATION
+		#define GL_SILENCE_DEPRECATION 1
+	#endif
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glext.h>
+#else
+	#include <GL/gl.h>
+#endif
+#if !UUmPlatform_Posix
 #include "glext.h"
 #else
 #define GL_TEXTURE_IMAGE_SIZE_ARB GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB

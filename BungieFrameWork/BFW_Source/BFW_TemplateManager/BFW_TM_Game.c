@@ -1577,6 +1577,19 @@ TMiGame_InstanceFile_New_FromFileRef(
 
 	*outInstanceFile = NULL;
 
+#if UUmPointerSize != 4
+	/*
+	 * The instance file is mapped and byte-swapped in place: every tm_templateref /
+	 * tm_raw field is 4 bytes on disk and is overwritten with a native pointer below.
+	 * With 8-byte pointers that write clobbers the following field and every struct
+	 * offset after it is wrong, so refuse loudly instead of corrupting memory.
+	 * A 64-bit build needs an on-disk -> in-memory layout translation pass
+	 * (see docs/macOS-Apple-Silicon.md).
+	 */
+	UUmError_ReturnOnErrorMsg(TMcError_DataCorrupt,
+		"64-bit builds cannot load the 32-bit instance file format yet (see docs/macOS-Apple-Silicon.md)");
+#endif
+
 	/*
 	 * Create the instance file structure
 	 */

@@ -151,7 +151,7 @@ extern "C" {
 
 		typedef LPVOID						M3tPlatformDevice;
 
-	#elif UUmPlatform == UUmPlatform_Linux
+	#elif UUmPlatform_Posix
 
 		// software renderer not yet available on Linux
 		typedef struct {} M3tPlatformDevice;
