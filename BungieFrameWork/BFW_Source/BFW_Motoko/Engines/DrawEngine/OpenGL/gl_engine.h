@@ -29,6 +29,7 @@
 #else
 #define GL_TEXTURE_IMAGE_SIZE_ARB GL_TEXTURE_COMPRESSED_IMAGE_SIZE_ARB
 #endif
+#include "gl_vendor_enums.h"
 
 #include "BFW_Motoko.h"
 #include "Motoko_Manager.h"

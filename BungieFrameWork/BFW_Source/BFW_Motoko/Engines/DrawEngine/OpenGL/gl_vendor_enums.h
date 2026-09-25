@@ -1,0 +1,156 @@
+/*
+	gl_vendor_enums.h
+
+	Vendor extension enums used by the OpenGL draw engine (nVidia register combiners,
+	3dfx FXT1 and S3TC texture compression, ARB multitexture, EXT texture_env_combine).
+	System headers on Windows/Linux (glext.h) define all of them; Apple's OpenGL
+	headers leave out the nVidia and 3dfx ones. Values come from the bundled glext.h
+	and are only defined when the platform headers did not already define them.
+*/
+
+#ifndef __GL_VENDOR_ENUMS__
+#define __GL_VENDOR_ENUMS__
+
+#ifndef GL_COMBINER0_NV
+#define GL_COMBINER0_NV	0x8550
+#endif
+#ifndef GL_COMBINE_ALPHA_EXT
+#define GL_COMBINE_ALPHA_EXT	0x8572
+#endif
+#ifndef GL_COMBINE_EXT
+#define GL_COMBINE_EXT	0x8570
+#endif
+#ifndef GL_COMBINE_RGB_EXT
+#define GL_COMBINE_RGB_EXT	0x8571
+#endif
+#ifndef GL_COMPRESSED_ALPHA_ARB
+#define GL_COMPRESSED_ALPHA_ARB	0x84E9
+#endif
+#ifndef GL_COMPRESSED_INTENSITY_ARB
+#define GL_COMPRESSED_INTENSITY_ARB	0x84EC
+#endif
+#ifndef GL_COMPRESSED_LUMINANCE_ALPHA_ARB
+#define GL_COMPRESSED_LUMINANCE_ALPHA_ARB	0x84EB
+#endif
+#ifndef GL_COMPRESSED_LUMINANCE_ARB
+#define GL_COMPRESSED_LUMINANCE_ARB	0x84EA
+#endif
+#ifndef GL_COMPRESSED_RGBA_ARB
+#define GL_COMPRESSED_RGBA_ARB	0x84EE
+#endif
+#ifndef GL_COMPRESSED_RGBA_FXT1_3DFX
+#define GL_COMPRESSED_RGBA_FXT1_3DFX	0x86B1
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT1_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT1_EXT	0x83F1
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT3_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT3_EXT	0x83F2
+#endif
+#ifndef GL_COMPRESSED_RGBA_S3TC_DXT5_EXT
+#define GL_COMPRESSED_RGBA_S3TC_DXT5_EXT	0x83F3
+#endif
+#ifndef GL_COMPRESSED_RGB_ARB
+#define GL_COMPRESSED_RGB_ARB	0x84ED
+#endif
+#ifndef GL_COMPRESSED_RGB_FXT1_3DFX
+#define GL_COMPRESSED_RGB_FXT1_3DFX	0x86B0
+#endif
+#ifndef GL_COMPRESSED_RGB_S3TC_DXT1_EXT
+#define GL_COMPRESSED_RGB_S3TC_DXT1_EXT	0x83F0
+#endif
+#ifndef GL_COMPRESSED_TEXTURE_FORMATS_ARB
+#define GL_COMPRESSED_TEXTURE_FORMATS_ARB	0x86A3
+#endif
+#ifndef GL_CONSTANT_EXT
+#define GL_CONSTANT_EXT	0x8576
+#endif
+#ifndef GL_DISCARD_NV
+#define GL_DISCARD_NV	0x8530
+#endif
+#ifndef GL_MAX_GENERAL_COMBINERS_NV
+#define GL_MAX_GENERAL_COMBINERS_NV	0x854D
+#endif
+#ifndef GL_MAX_TEXTURE_UNITS_ARB
+#define GL_MAX_TEXTURE_UNITS_ARB	0x84E2
+#endif
+#ifndef GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB
+#define GL_NUM_COMPRESSED_TEXTURE_FORMATS_ARB	0x86A2
+#endif
+#ifndef GL_NUM_GENERAL_COMBINERS_NV
+#define GL_NUM_GENERAL_COMBINERS_NV	0x854E
+#endif
+#ifndef GL_OPERAND0_ALPHA_EXT
+#define GL_OPERAND0_ALPHA_EXT	0x8598
+#endif
+#ifndef GL_OPERAND0_RGB_EXT
+#define GL_OPERAND0_RGB_EXT	0x8590
+#endif
+#ifndef GL_OPERAND1_ALPHA_EXT
+#define GL_OPERAND1_ALPHA_EXT	0x8599
+#endif
+#ifndef GL_OPERAND1_RGB_EXT
+#define GL_OPERAND1_RGB_EXT	0x8591
+#endif
+#ifndef GL_OPERAND2_RGB_EXT
+#define GL_OPERAND2_RGB_EXT	0x8592
+#endif
+#ifndef GL_PREVIOUS_EXT
+#define GL_PREVIOUS_EXT	0x8578
+#endif
+#ifndef GL_REGISTER_COMBINERS_NV
+#define GL_REGISTER_COMBINERS_NV	0x8522
+#endif
+#ifndef GL_RGB_SCALE_EXT
+#define GL_RGB_SCALE_EXT	0x8573
+#endif
+#ifndef GL_SOURCE0_ALPHA_EXT
+#define GL_SOURCE0_ALPHA_EXT	0x8588
+#endif
+#ifndef GL_SOURCE0_RGB_EXT
+#define GL_SOURCE0_RGB_EXT	0x8580
+#endif
+#ifndef GL_SOURCE1_ALPHA_EXT
+#define GL_SOURCE1_ALPHA_EXT	0x8589
+#endif
+#ifndef GL_SOURCE1_RGB_EXT
+#define GL_SOURCE1_RGB_EXT	0x8581
+#endif
+#ifndef GL_SOURCE2_RGB_EXT
+#define GL_SOURCE2_RGB_EXT	0x8582
+#endif
+#ifndef GL_SPARE0_NV
+#define GL_SPARE0_NV	0x852E
+#endif
+#ifndef GL_TEXTURE0_ARB
+#define GL_TEXTURE0_ARB	0x84C0
+#endif
+#ifndef GL_TEXTURE1_ARB
+#define GL_TEXTURE1_ARB	0x84C1
+#endif
+#ifndef GL_TEXTURE_COMPRESSED_ARB
+#define GL_TEXTURE_COMPRESSED_ARB	0x86A1
+#endif
+#ifndef GL_TEXTURE_IMAGE_SIZE_ARB
+#define GL_TEXTURE_IMAGE_SIZE_ARB	0x86A0
+#endif
+#ifndef GL_UNSIGNED_IDENTITY_NV
+#define GL_UNSIGNED_IDENTITY_NV	0x8536
+#endif
+#ifndef GL_UNSIGNED_INVERT_NV
+#define GL_UNSIGNED_INVERT_NV	0x8537
+#endif
+#ifndef GL_VARIABLE_A_NV
+#define GL_VARIABLE_A_NV	0x8523
+#endif
+#ifndef GL_VARIABLE_B_NV
+#define GL_VARIABLE_B_NV	0x8524
+#endif
+#ifndef GL_VARIABLE_C_NV
+#define GL_VARIABLE_C_NV	0x8525
+#endif
+#ifndef GL_VARIABLE_D_NV
+#define GL_VARIABLE_D_NV	0x8526
+#endif
+
+#endif // __GL_VENDOR_ENUMS__
