@@ -189,8 +189,9 @@ extern "C" {
 		#define UUcProcessor_CacheLineBits	(5)
 		#define UUrProcessor_ZeroCacheLine(x, y)
 	#elif UUmProcessor == UUmProcessor_ARM64
-		// Apple Silicon uses 128-byte cache lines; 64 is a safe hint for every other ARM64 core
-		#define UUcProcessor_CacheLineBits	(6)
+		// Real ARM64 cache lines are 64 or 128 bytes, but UUiMemory_Block_Copy and the
+		// memory allocator are written around 32-byte lines, so keep the hint at 32.
+		#define UUcProcessor_CacheLineBits	(5)
 		#define UUrProcessor_ZeroCacheLine(x, y)
 	#elif UUmProcessor == UUmProcessor_PPC
 		#define UUcProcessor_CacheLineBits	(5)

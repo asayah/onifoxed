@@ -20,6 +20,10 @@
 #else
 	#include <GL/gl.h>
 #endif
+#ifndef APIENTRY
+	// Windows calling-convention decoration used throughout the GL function table
+	#define APIENTRY
+#endif
 #if !UUmPlatform_Posix
 #include "glext.h"
 #else
